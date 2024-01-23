@@ -39,7 +39,6 @@ class SMLayerNormalization(layers.Layer):
             epsilon=self.epsilon, center=False, scale=False
         )
 
-
     def call(self, inputs):
         x, z = inputs
         x = self.ln(x)
@@ -84,7 +83,6 @@ class AdditiveAttention(layers.Layer):
         attn = tf.transpose(self.q_attn(q), [0, 2, 1]) / self.depth ** 0.5
         attn = tf.nn.softmax(attn, axis=-1)  
    
-
         q = self.split_into_heads(q, B)  
         k = self.split_into_heads(k, B)  
         v = self.split_into_heads(v, B)
@@ -239,7 +237,9 @@ class Ladaformer(tf.keras.layers.Layer):
         super(Ladaformer, self).__init__()
         self.attn = AdditiveAttention(model_dim, n_heads)
         self.mlp = tf.keras.Sequential([
-            layers.Dense(mlp_dim, activation='gelu', kernel_initializer=initializer), 
+            layers.Dense(
+                mlp_dim, activation='gelu', kernel_initializer=initializer
+            ), 
             layers.Dense(model_dim, kernel_initializer=initializer),
         ])
         self.norm1 = layers.LayerNormalization(epsilon=eps)
@@ -303,5 +303,4 @@ class Discriminator(tf.keras.models.Model):
         x = self.conv_4(x)
 
         x = self.down_4(x)
-
         return [self.logits(x)]
