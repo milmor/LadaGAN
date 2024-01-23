@@ -1,7 +1,7 @@
 # LadaGAN
 This repo is the official implementation of "[Efficient generative adversarial networks using linear additive-attention Transformers](https://arxiv.org/abs/2401.09596)".
 
-By Emilio Morales-Juarez and Gibran Fuentes-Pineda
+By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
 
 ## Abstract
@@ -16,3 +16,8 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda
   journal={arXiv preprint arXiv:2401.09596},
   year={2024}
 }
+```
+
+
+## License
+MIT
