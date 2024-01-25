@@ -181,7 +181,7 @@ class LadaGAN(object):
 
         self.best_ckpt_manager = tf.train.CheckpointManager(
             self.ckpt, directory=best_checkpoint_dir, 
-            max_to_keep=max_ckpt_to_keep
+            max_to_keep=1
         )
                   
         last_ckpt = self.best_ckpt_manager.latest_checkpoint

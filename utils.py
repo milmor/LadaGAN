@@ -1,6 +1,5 @@
 import os
 import matplotlib
-import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 from tqdm import tqdm
 import numpy as np
@@ -9,6 +8,8 @@ import math
 import json
 import tensorflow as tf
 from tensorflow.keras import layers
+from huggingface_hub import hf_hub_download
+import json
 
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
@@ -131,3 +132,32 @@ class Config(object):
         for key, value in config_data.items():
             setattr(self, key, value)
         print(f'Config {file_path} loaded')
+        
+class Loader():
+    def __init__(self):
+        pass
+        
+    def download(self, ckpt_dir):
+        repo_id = 'milmor/LadaGAN'
+        if ckpt_dir == 'celeba_64':
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-72192000.data-00000-of-00001",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-72192000.index",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/checkpoint",
+                local_dir='./')
+
+            config_file = hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/config.json",
+                local_dir='./'
+            )
+
+        with open(config_file) as f:
+            self.config = json.load(f)
