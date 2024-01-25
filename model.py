@@ -271,7 +271,7 @@ class Discriminator(tf.keras.models.Model):
         elif img_size == 256:
             assert len(enc_dim) == 5, "Incorrect length of enc_dim for img_size 256"
         else:
-            raise ValueError(f"image_size = {img_size} not supported")
+            raise ValueError(f"img_size = {img_size} not supported")
             
         self.enc_dim = enc_dim
         self.inp_conv = tf.keras.Sequential([
