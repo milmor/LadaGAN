@@ -63,24 +63,23 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
 
     gan.create_ckpt(model_dir, max_ckpt_to_keep, restore_best=False)
     
-    # train config
+    # plot seed and plot dir
     num_examples_to_generate = 64 # plot images
     noise_seed = tf.random.normal(
         [num_examples_to_generate, conf.noise_dim], seed=conf.test_seed
     )
     gen_img_dir = os.path.join(model_dir, 'log-gen-img')
     os.makedirs(gen_img_dir, exist_ok=True)
-    # additive attention maps dir for 3 stages
+    # additive attention maps plot dirs for 3 stages
     n_resolutions = 3
     resolution_dirs = []
     for resolution in range(n_resolutions):
         path = os.path.join(gen_img_dir, 'res_{}'.format(resolution))
         os.makedirs(path, exist_ok=True)                    
         resolution_dirs.append(path)
-        
-    start_iter = int((gan.ckpt.n_images / gan.batch_size) + 1)
     
     # train
+    start_iter = int((gan.ckpt.n_images / gan.batch_size) + 1)
     n_images = int(gan.ckpt.n_images)
     start = time.time()
     for idx in range(start_iter, total_iter):
