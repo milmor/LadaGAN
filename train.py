@@ -22,8 +22,9 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
     # init model
     noise = tf.random.normal([conf.batch_size, conf.noise_dim])
     generator = Generator(
-        img_size=conf.img_size, model_dim=conf.g_dim, heads=conf.g_heads, 
-        mlp_dim=conf.g_mlp)
+        img_size=conf.img_size, model_dim=conf.g_dim, 
+        heads=conf.g_heads, mlp_dim=conf.g_mlp
+    )
     gen_batch = generator(noise)
     generator.summary()
     print('G output shape:', gen_batch[0].shape)
