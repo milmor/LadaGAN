@@ -14,7 +14,7 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
 
 ## Training LadaGAN
-Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the dataset path and FID evaluation dir.
+Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the dataset path and FID evaluation path.
 ```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
