@@ -1,8 +1,5 @@
 import os
-import matplotlib
-matplotlib.use('Agg')
 from tqdm import tqdm
-import numpy as np
 from PIL import Image
 import math
 import json
