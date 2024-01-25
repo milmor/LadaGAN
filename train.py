@@ -116,7 +116,7 @@ def main():
     parser.add_argument('--max_ckpt_to_keep', type=int, default=2)
     args = parser.parse_args()
 
-    conf = Config(config, args.model_dir)
+    conf = Config(args.model_dir, config)
     train(
         args.file_pattern, args.eval_dir, args.model_dir, 
         args.metrics_inter, args.fid_inter, args.total_iter,

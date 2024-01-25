@@ -70,9 +70,10 @@ def get_loss(loss):
         return generator_loss, discriminator_loss
 
 class Config(object):
-    def __init__(self, input_dict, save_dir):
-        for key, value in input_dict.items():
-            setattr(self, key, value)
+    def __init__(self, save_dir, input_dict=None):
+        if input_dict != None:
+            for key, value in input_dict.items():
+                setattr(self, key, value)
         file_path = os.path.join(save_dir, "config.json")
 
         # Check if the configuration file exists
