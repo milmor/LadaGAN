@@ -91,11 +91,11 @@ class AdditiveAttention(layers.Layer):
         global_q = tf.einsum('b h n, b h n d -> b h d', attn, q) 
         global_q = tf.expand_dims(global_q, 2)
        
-        k = k * global_q 
-        v = v * k
+        p = global_q * k 
+        r = p * v
 
-        u = tf.transpose(v, perm=[0, 2, 1, 3]) 
-        original_size_attention = tf.reshape(u, (B, -1, self.model_dim)) 
+        r = tf.transpose(r, perm=[0, 2, 1, 3]) 
+        original_size_attention = tf.reshape(r, (B, -1, self.model_dim)) 
 
         output = self.to_out(original_size_attention) 
         return output, attn
