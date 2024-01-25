@@ -40,8 +40,9 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
     discriminator.summary()
     print('D Output shape:', out_disc[0].shape)
     
-    gan = LadaGAN(generator=generator, discriminator=discriminator, 
-                  conf=conf)
+    gan = LadaGAN(
+        generator=generator, discriminator=discriminator, conf=conf
+    )
     
     # define losses
     generator_loss, discriminator_loss = get_loss(conf.loss)
@@ -55,7 +56,8 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
         d_optimizer=tf.keras.optimizers.Adam(
             learning_rate=conf.d_lr, 
             beta_1=conf.d_beta1,
-            beta_2=conf.d_beta2),
+            beta_2=conf.d_beta2
+        ),
         g_loss=generator_loss,
         d_loss=discriminator_loss)
 
@@ -63,8 +65,9 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
     
     # train config
     num_examples_to_generate = 64 # plot images
-    noise_seed = tf.random.normal([num_examples_to_generate, 
-                                   conf.noise_dim], seed=conf.test_seed)
+    noise_seed = tf.random.normal(
+        [num_examples_to_generate, conf.noise_dim], seed=conf.test_seed
+    )
     gen_img_dir = os.path.join(model_dir, 'log-gen-img')
     os.makedirs(gen_img_dir, exist_ok=True)
     # additive attention maps dir for 3 stages
