@@ -9,6 +9,7 @@ from tqdm import tqdm
 from PIL import Image
 from model import Generator, Discriminator
 from utils import *
+from plot_utils import save_generator_heads
 from trainer import LadaGAN
 from config import config
 

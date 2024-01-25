@@ -39,39 +39,6 @@ def create_train_iter_ds(train_dir, batch_size, img_size):
     print(f'Train batches: {tf.data.experimental.cardinality(ds)}')
     ds = ds.repeat().prefetch(AUTOTUNE)
     return iter(ds)
-    
-def save_generator_heads(model, epoch, noise, main_dir, 
-			resolution_dirs, heads, size=15, n_resolutions=3):
-    predictions, maps = model(noise, training=False)
-    predictions = np.clip(deprocess(predictions), 0, 255).astype(np.uint8)
-
-    fig = plt.figure(figsize=(size, size))
-
-    for i in range(predictions.shape[0]):
-        # create subplot and append to ax
-        fig.add_subplot(8, 8, i+1)
-        plt.imshow(predictions[i, :, :, :])
-        plt.axis('off')
-
-    path = os.path.join(main_dir, f'{epoch:04d}.png')
-    plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-    plt.savefig(path, format='png')
-    plt.close()
-    
-    for r in range(n_resolutions):
-        for h in range(heads[r]):
-            map_size = int(math.sqrt(maps[r][0][0].shape[0])) # get map high and width 
-            fig = plt.figure(figsize=(size, size))
-            for i in range(predictions.shape[0]):
-                fig.add_subplot(8, 8, i+1)
-                map_reshape = tf.reshape(maps[r][i][h], [map_size, map_size])
-                plt.imshow(map_reshape)
-                plt.axis('off')
-            plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-
-            path = os.path.join(resolution_dirs[r], f'ep{epoch:04d}_r{r}_h{str(h)}.png')
-            plt.savefig(path)
-            plt.close()
 
 def get_loss(loss):
     if loss == 'nsl':
@@ -133,7 +100,7 @@ class Config(object):
             setattr(self, key, value)
         print(f'Config {file_path} loaded')
         
-class Loader():
+class Loader(object):
     def __init__(self):
         pass
         
