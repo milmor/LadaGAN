@@ -15,20 +15,24 @@ from config import config
 
 def train(file_pattern, eval_dir, model_dir, metrics_inter, 
           fid_inter, total_iter, max_ckpt_to_keep, conf):
-    train_ds = create_train_iter_ds(file_pattern, conf.batch_size, conf.img_size)
+    train_ds = create_train_iter_ds(
+        file_pattern, conf.batch_size, conf.img_size
+    )
 
     # init model
     noise = tf.random.normal([conf.batch_size, conf.noise_dim])
-    generator = Generator(model_dim=conf.g_dim, heads=conf.g_heads, 
-                          mlp_dim=conf.g_mlp)
+    generator = Generator(
+        img_size=conf.img_size, model_dim=conf.g_dim, heads=conf.g_heads, 
+        mlp_dim=conf.g_mlp)
     gen_batch = generator(noise)
     generator.summary()
     print('G output shape:', gen_batch[0].shape)
     
-    discriminator = Discriminator(model_dim=conf.d_dim,                              
-                                  heads=conf.d_heads,
-                                  mlp_dim=conf.d_mlp,
-                                  initializer=conf.d_initializer)
+    discriminator = Discriminator(
+        img_size=conf.img_size, enc_dim=conf.d_enc_dim,   
+        out_dim=conf.d_out_dim, heads=conf.d_heads,
+        mlp_dim=conf.d_mlp, initializer=conf.d_initializer
+    )
     out_disc = discriminator(
         tf.ones([conf.batch_size, conf.img_size, conf.img_size, 3])
     )

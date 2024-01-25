@@ -10,7 +10,7 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
 ## Dependencies
 - Python 3.9
-- Tensorflow <=2.13.1
+- Tensorflow <= 2.13.1
 
 
 ## Training LadaGAN
@@ -27,7 +27,7 @@ Implementation notes:
 - This model depends on other files that may be licensed under different open source licenses.
 - LadaGAN uses [Differentiable Augmentation](https://arxiv.org/abs/2006.10738). Under BSD 2-Clause "Simplified" License.
 - [FID](https://arxiv.org/abs/1706.08500) evaluation.
-- __Currently supports $64 \times 64$ images.__
+- Patch generation.
 
 
 ## BibTeX

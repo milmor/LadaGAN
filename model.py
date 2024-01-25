@@ -143,9 +143,8 @@ class PositionalEmbedding(layers.Layer):
     
 
 class Generator(tf.keras.models.Model):
-    def __init__(self, model_dim=[1024, 256, 64], heads=[2, 2, 2], 
-                 mlp_dim=[2048, 1024, 512], initializer='orthogonal', 
-                 patch_size=2):
+    def __init__(self, img_size=32, model_dim=[1024, 256, 64], heads=[2, 2, 2], 
+                 mlp_dim=[2048, 1024, 512], initializer='orthogonal'):
         super(Generator, self).__init__()
         self.init = tf.keras.Sequential([
             layers.Dense(8 * 8 * model_dim[0], use_bias=False, 
@@ -171,10 +170,10 @@ class Generator(tf.keras.models.Model):
                                 initializer=initializer)
         self.block_32 = SMLadaformer(model_dim[2], heads[2], 
                                 mlp_dim[2], initializer=initializer)
-        self.patch_size_64 = patch_size
 
         self.ch_conv = layers.Conv2D(3, 3, padding='same', 
                                 kernel_initializer=initializer)
+        self.patch_size = img_size // 32
 
     def call(self, z):
         B = z.shape[0]
@@ -197,7 +196,8 @@ class Generator(tf.keras.models.Model):
         x, attn_32 = self.block_32([x, z])
 
         x = tf.reshape(x, [B, 32, 32, -1])
-        x = tf.nn.depth_to_space(x, self.patch_size_64, data_format='NHWC')
+        if self.patch_size != 1:
+            x = tf.nn.depth_to_space(x, self.patch_size, data_format='NHWC')
         return [self.ch_conv(x), [attn_8, attn_16, attn_32]]
 
     
@@ -259,26 +259,39 @@ class Ladaformer(tf.keras.layers.Layer):
 
     
 class Discriminator(tf.keras.models.Model):
-    def __init__(self, model_dim=[32, 64, 128, 256], mlp_dim=512, 
+    def __init__(self, img_size=32, enc_dim=[64, 128, 256], out_dim=[512, 1024], mlp_dim=512, 
                  heads=2, initializer='orthogonal'):
         super(Discriminator, self).__init__()
-        self.down_16 = tf.keras.Sequential([
-            layers.Conv2D(model_dim[0], kernel_size=3, strides=1, use_bias=False,
+        if img_size == 32:
+            assert len(enc_dim) == 2, "Incorrect length of enc_dim for img_size 32"
+        elif img_size == 64:
+            assert len(enc_dim) == 3, "Incorrect length of enc_dim for img_size 64"
+        elif img_size == 128:
+            assert len(enc_dim) == 4, "Incorrect length of enc_dim for img_size 128"
+        elif img_size == 256:
+            assert len(enc_dim) == 5, "Incorrect length of enc_dim for img_size 256"
+        else:
+            raise ValueError(f"image_size = {img_size} not supported")
+            
+        self.enc_dim = enc_dim
+        self.inp_conv = tf.keras.Sequential([
+            layers.Conv2D(enc_dim[0], kernel_size=3, strides=1, use_bias=False,
                 kernel_initializer=initializer, padding='same'),
             layers.LeakyReLU(0.2),
-            downBlock(model_dim[1], kernel_size=3, strides=2, initializer=initializer),
-            downBlock(model_dim[2], kernel_size=3, strides=2,  initializer=initializer)
         ])    
+        self.encoder = [downBlock(
+            i, kernel_size=3, strides=2, initializer=initializer
+        ) for i in enc_dim[1:]]
 
-        self.pos_emb_8 = PositionalEmbedding(256, model_dim[2], 
+        self.pos_emb_8 = PositionalEmbedding(256, enc_dim[-1], 
                             initializer=initializer)
-        self.block_8 = Ladaformer(model_dim[2], heads, 
+        self.block_8 = Ladaformer(enc_dim[-1], heads, 
                             mlp_dim, initializer=initializer)
         
-        self.conv_4 = layers.Conv2D(model_dim[3], 3, padding='same', 
+        self.conv_4 = layers.Conv2D(out_dim[0], 3, padding='same', 
                                     kernel_initializer=initializer)
         self.down_4 = tf.keras.Sequential([
-            layers.Conv2D(model_dim[4], kernel_size=1, strides=1, use_bias=False,
+            layers.Conv2D(out_dim[1], kernel_size=1, strides=1, use_bias=False,
                 kernel_initializer=initializer, padding='valid'),
             layers.LeakyReLU(0.2),
             layers.Conv2D(1, kernel_size=4, strides=1, use_bias=False,
@@ -291,14 +304,16 @@ class Discriminator(tf.keras.models.Model):
         ])
     
     def call(self, img):
-        x = self.down_16(img)  
+        x = self.inp_conv(img)  
+        for i in range(len(self.enc_dim[1:])):
+            x = self.encoder[i](x)
 
         B, H, W, C = x.shape
-        x = tf.reshape(x, (-1, H * W, C))
+        x = tf.reshape(x, (B, H * W, C))
         x = self.pos_emb_8(x)
         x, maps_16 = self.block_8(x)
 
-        x = tf.reshape(x, (-1, H, W, C))
+        x = tf.reshape(x, (B, H, W, C))
         x = tf.nn.space_to_depth(x, 2, data_format='NHWC') 
         x = self.conv_4(x)
 

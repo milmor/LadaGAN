@@ -28,7 +28,7 @@ def update_metrics(metrics, **kwargs):
         metrics[metric_name].update_state(metric_value)
 
         
-class LadaGAN(tf.keras.Model):
+class LadaGAN(object):
     def __init__(self, generator, discriminator, conf):
         super(LadaGAN, self).__init__()
         self.generator = generator
