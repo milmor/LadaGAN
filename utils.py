@@ -103,7 +103,26 @@ class Loader(object):
         
     def download(self, ckpt_dir):
         repo_id = 'milmor/LadaGAN'
-        if ckpt_dir == 'celeba_64':
+        if ckpt_dir == 'ffhq_128':
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-24064000.data-00000-of-00001",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-24064000.index",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/checkpoint",
+                local_dir='./')
+
+            config_file = hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/config.json",
+                local_dir='./'
+            )
+        elif ckpt_dir == 'celeba_64':
             hf_hub_download(repo_id=repo_id, 
                 filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-72192000.data-00000-of-00001",
                 local_dir='./'
