@@ -1,5 +1,4 @@
 import os
-from tqdm import tqdm
 import json
 import tensorflow as tf
 from tensorflow.keras import layers
