@@ -1,6 +1,5 @@
 import os
 from tqdm import tqdm
-from PIL import Image
 import json
 import tensorflow as tf
 from tensorflow.keras import layers
