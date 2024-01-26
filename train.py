@@ -24,7 +24,7 @@ def train(file_pattern, eval_dir, model_dir, metrics_inter,
     noise = tf.random.normal([conf.batch_size, conf.noise_dim])
     generator = Generator(
         img_size=conf.img_size, model_dim=conf.g_dim, 
-        heads=conf.g_heads, mlp_dim=conf.g_mlp
+        heads=conf.g_heads, mlp_dim=conf.g_mlp, dec_dim=conf.dec_dim
     )
     gen_batch = generator(noise)
     generator.summary()
@@ -117,6 +117,7 @@ def main():
     args = parser.parse_args()
 
     conf = Config(args.model_dir, config)
+
     train(
         args.file_pattern, args.eval_dir, args.model_dir, 
         args.metrics_inter, args.fid_inter, args.total_iter,

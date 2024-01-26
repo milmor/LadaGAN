@@ -93,10 +93,12 @@ class Config(object):
         with open(file_path, "r") as f:
             config_data = json.load(f)
 
+        print(f'Config {file_path} loaded')
         # Update the object's attributes with loaded configuration
         for key, value in config_data.items():
+            print(f'{key}: {value}')
             setattr(self, key, value)
-        print(f'Config {file_path} loaded')
+        
         
 class Loader(object):
     def __init__(self):

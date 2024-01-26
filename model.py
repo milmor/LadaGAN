@@ -144,7 +144,7 @@ class PositionalEmbedding(layers.Layer):
 
 class Generator(tf.keras.models.Model):
     def __init__(self, img_size=32, model_dim=[1024, 256, 64], heads=[2, 2, 2], 
-                 mlp_dim=[2048, 1024, 512], initializer='orthogonal'):
+                 mlp_dim=[2048, 1024, 512], initializer='orthogonal', dec_dim=False):
         super(Generator, self).__init__()
         self.init = tf.keras.Sequential([
             layers.Dense(8 * 8 * model_dim[0], use_bias=False, 
@@ -171,9 +171,19 @@ class Generator(tf.keras.models.Model):
         self.block_32 = SMLadaformer(model_dim[2], heads[2], 
                                 mlp_dim[2], initializer=initializer)
 
+        self.dec_dim = dec_dim
+        if self.dec_dim:
+            self.dec = tf.keras.Sequential()
+            for _ in self.dec_dim:
+                self.dec.add(layers.UpSampling2D(2, interpolation='nearest'))
+                self.dec.add(layers.Conv2D(_, 3, padding='same', 
+                                    kernel_initializer=initializer)),
+                self.dec.add(layers.BatchNormalization())
+                self.dec.add(layers.LeakyReLU(0.2))
+        else:
+            self.patch_size = img_size // 32
         self.ch_conv = layers.Conv2D(3, 3, padding='same', 
                                 kernel_initializer=initializer)
-        self.patch_size = img_size // 32
 
     def call(self, z):
         B = z.shape[0]
@@ -196,7 +206,9 @@ class Generator(tf.keras.models.Model):
         x, attn_32 = self.block_32([x, z])
 
         x = tf.reshape(x, [B, 32, 32, -1])
-        if self.patch_size != 1:
+        if  self.dec_dim:
+            x = self.dec(x)
+        elif self.patch_size != 1:
             x = tf.nn.depth_to_space(x, self.patch_size, data_format='NHWC')
         return [self.ch_conv(x), [attn_8, attn_16, attn_32]]
 

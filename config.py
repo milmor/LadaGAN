@@ -10,7 +10,7 @@ config = {
     'g_heads': [4, 4, 4],
     'g_mlp': [512, 512, 512],
     'd_initializer': 'orthogonal',
-    'd_enc_dim': [64, 128, 256],
+    'd_enc_dim': [64, 128, 256], # 64x64 [64, 128, 256], 128x128  [32, 64, 128, 256],
     'd_out_dim': [512, 1024],   
     'd_heads': 4,
     'd_mlp': 512,
@@ -23,8 +23,11 @@ config = {
     'gen_batch_size': 50, 
     'loss': 'nsl',
     'ema_decay': 0.999,
+    'bcr': False,
+    'cr_weight': 0.1,
+    'dec_dim': False, # conv decoder 64x64 [32], 128x128 [32, 16], 256x256 [32, 16, 8]
     'n_fid_real': 2500,
     'n_fid_gen': 2500,
     'plot_size': 5.2,
-    'test_seed':77
+    'test_seed': 77,
 }

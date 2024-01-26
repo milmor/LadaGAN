@@ -40,6 +40,8 @@ class LadaGAN(object):
         self.batch_size = conf.batch_size
         self.ema_decay = conf.ema_decay
         self.ema_generator = tf.keras.models.clone_model(generator)
+        self.bcr = conf.bcr
+        self.cr_weight = conf.cr_weight
         # init ema
         noise = tf.random.normal([1, conf.noise_dim])
         gen_batch = self.ema_generator(noise)
@@ -62,7 +64,8 @@ class LadaGAN(object):
         'gp',
         'd_total',
         'real_acc',
-        'fake_acc'
+        'fake_acc',
+        'cr'
         ]
         for metric_name in metric_names:
             self.train_metrics[metric_name] = tf.keras.metrics.Mean()
@@ -85,14 +88,37 @@ class LadaGAN(object):
         noise = tf.random.normal(shape=[self.batch_size, self.noise_dim])
         # train the discriminator
         with tf.GradientTape() as d_tape:
-            fake_images = self.generator(noise, training=True)[0]
-            fake_augmented_images = DiffAugment(fake_images, policy=self.policy) 
-            real_augmented_images = DiffAugment(real_images, policy=self.policy)
-            fake_logits = self.discriminator(fake_augmented_images, training=True)[0]
-            real_logits, gp = self.gradient_penalty(real_augmented_images)          
+            if self.bcr:
+                fake_images = self.generator(noise, training=True)[0]
+                fake_logits = self.discriminator(fake_images, training=True)[0]
+                real_logits, gp = self.gradient_penalty(real_images) 
+                real_augmented_images = DiffAugment(real_images, policy=self.policy)
+                fake_augmented_images = DiffAugment(fake_images, policy=self.policy)  
+                real_augmented_images = tf.stop_gradient(real_augmented_images)
+                fake_augmented_images = tf.stop_gradient(fake_augmented_images)
+                
+                augmented_images = tf.concat(
+                    (real_augmented_images, fake_augmented_images), axis=0)
+                augmented_logits = self.discriminator(augmented_images, training=True)[0]
+                real_augmented_logits, fake_augmented_logits = tf.split(
+                    augmented_logits, num_or_size_splits=2, axis=0)
+                consistency_loss = self.cr_weight * (
+                    l2_loss(real_logits, real_augmented_logits) +
+                    l2_loss(fake_logits, fake_augmented_logits))                
+        
+                d_loss = self.d_loss(real_logits, fake_logits)
+                d_total = d_loss + gp + consistency_loss
+                
+            else:
+                fake_images = self.generator(noise, training=True)[0]
+                fake_augmented_images = DiffAugment(fake_images, policy=self.policy) 
+                real_augmented_images = DiffAugment(real_images, policy=self.policy)
+                fake_logits = self.discriminator(fake_augmented_images, training=True)[0]
+                real_logits, gp = self.gradient_penalty(real_augmented_images)          
 
-            d_loss = self.d_loss(real_logits, fake_logits)
-            d_total = d_loss + gp 
+                d_loss = self.d_loss(real_logits, fake_logits)
+                d_total = d_loss + gp 
+                consistency_loss = tf.constant(0.0, dtype=tf.float32)
 
         d_gradients = d_tape.gradient(d_total, self.discriminator.trainable_weights)
         self.d_optimizer.apply_gradients(
@@ -102,10 +128,15 @@ class LadaGAN(object):
         noise = tf.random.normal(shape=[self.batch_size, self.noise_dim])
         # train the generator 
         with tf.GradientTape() as g_tape:
-            fake_images = self.generator(noise, training=True)[0]
-            fake_augmented_images = DiffAugment(fake_images, policy=self.policy) 
-            fake_logits = self.discriminator(fake_augmented_images, training=True)[0]
-            g_loss = self.g_loss(fake_logits)
+            if self.bcr:
+                fake_images = self.generator(noise, training=True)[0]
+                fake_logits = self.discriminator(fake_images, training=True)[0]
+                g_loss = self.g_loss(fake_logits)
+            else:
+                fake_images = self.generator(noise, training=True)[0]
+                fake_augmented_images = DiffAugment(fake_images, policy=self.policy) 
+                fake_logits = self.discriminator(fake_augmented_images, training=True)[0]
+                g_loss = self.g_loss(fake_logits)
             
         g_gradients = g_tape.gradient(g_loss, self.generator.trainable_weights)
         self.g_optimizer.apply_gradients(
@@ -121,7 +152,8 @@ class LadaGAN(object):
          gp=gp,
          d_total=d_total,
          real_acc=tf.reduce_mean(real_logits),
-         fake_acc=tf.reduce_mean(fake_logits)   
+         fake_acc=tf.reduce_mean(fake_logits),
+         cr=consistency_loss
       )
         
     def create_ckpt(self, model_dir, max_ckpt_to_keep, restore_best=True):
