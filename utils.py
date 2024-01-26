@@ -125,6 +125,25 @@ class Loader(object):
                 filename=f"{ckpt_dir}/config.json",
                 local_dir='./'
             )
+        elif ckpt_dir == 'cifar10':
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-68096000.data-00000-of-00001",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/ckpt-68096000.index",
+                local_dir='./'
+            )
+
+            hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/best-training-checkpoints/checkpoint",
+                local_dir='./')
+
+            config_file = hf_hub_download(repo_id=repo_id, 
+                filename=f"{ckpt_dir}/config.json",
+                local_dir='./'
+            )
 
         with open(config_file) as f:
             self.config = json.load(f)
