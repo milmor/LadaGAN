@@ -49,14 +49,14 @@ def get_map(maps, resolution, head):
     reshaped_maps = tf.reshape(maps[r][:, h], [b, map_size, map_size, 1])
     return reshaped_maps
 
-def plot_single_head(predictions, maps, h=1):
+def plot_single_head(predictions, maps, h=1, size=2):
     n = len(predictions)
     maps32 = get_map(maps, 2, h)
     maps16 = get_map(maps, 1, h)
     maps8 = get_map(maps, 0, h)
     
     # Create a figure with multiple subplots
-    fig, axes = plt.subplots(4, n, figsize=(n*2, 4*2))
+    fig, axes = plt.subplots(4, n, figsize=(n*size, 4*size))
 
     # Plot the images in the first row
     for i in range(n):
