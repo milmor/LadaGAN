@@ -105,6 +105,8 @@ class Loader(object):
         repo_id = 'milmor/LadaGAN'
         if ckpt_dir == 'ffhq_128':
             n_images = 24064000
+        elif ckpt_dir == 'bedroom_128':
+            n_images = 10624000
 
         elif ckpt_dir == 'celeba_64':
             n_images = 72192000
