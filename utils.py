@@ -107,10 +107,8 @@ class Loader(object):
             n_images = 24064000
         elif ckpt_dir == 'bedroom_128':
             n_images = 10624000
-
         elif ckpt_dir == 'celeba_64':
             n_images = 72192000
-
         elif ckpt_dir == 'cifar10':
             n_images = 68096000
 
