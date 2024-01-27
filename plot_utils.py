@@ -49,7 +49,7 @@ def get_map(maps, resolution, head):
     reshaped_maps = tf.reshape(maps[r][:, h], [b, map_size, map_size, 1])
     return reshaped_maps
 
-def plot_single_head(predictions, maps, h=1, size=2):
+def plot_single_head(predictions, maps, h=1, size=1, path=None):
     n = len(predictions)
     maps32 = get_map(maps, 2, h)
     maps16 = get_map(maps, 1, h)
@@ -83,5 +83,7 @@ def plot_single_head(predictions, maps, h=1, size=2):
         ax.set_title("")
 
     # Display the plot
-    plt.tight_layout()
+    plt.tight_layout(pad=0.1, h_pad=0.5, w_pad=0.0)
+    if path:
+        plt.savefig(path, bbox_inches='tight')
     plt.show()
