@@ -29,6 +29,10 @@ Implementation notes:
 - [FID](https://arxiv.org/abs/1706.08500) evaluation.
 - Patch generation.
 
+## Demo
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VaCe01YG9rnPwAfwVLBKdXEX7D_tk1U5?usp=sharing)
+
+
 
 ## BibTeX
 ```bibtex
