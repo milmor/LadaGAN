@@ -45,6 +45,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
 | #Params | 543M | - | - | __24M__ |
 | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
 | FID| 6.89| - | -| __4.48__ |
+
 FID evaluation is computed using [Pytorch FID](https://github.com/mseitzer/pytorch-fid).
 
 ## Hparams setting
