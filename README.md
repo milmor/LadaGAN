@@ -1,6 +1,8 @@
 # LadaGAN
 This repo is the official implementation of "[Efficient generative adversarial networks using linear additive-attention Transformers](https://arxiv.org/abs/2401.09596)".
 
+<img src="./images/cifar10_img.png" width="850px"></img>
+
 By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
 
@@ -19,6 +21,26 @@ Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the d
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
 
+## FLOPs
+Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA:
+| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :--- | :-- | :--  | :--   | :----   | :----   |
+|                     | FLOPs | 9.0B | - | - | __0.7B__ |
+|   CIFAR 10 (32 X 32)  |   #Images | 69M |- |- | __68M__ |
+|                     | FID | __2.93__| 5.79 |4.57 | 3.48 |
+
+| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :--- | :-- | :--  | :--   | :----   | :----   |
+|                     | FLOPs | 103.5B | 7.8B |2.6B | __0.7B__ |
+|   CelebA (64 X 64)  |   #Images | 138M |- |- | __72M__ |
+|                     | FID | 2.67| -|3.74 | __1.81__ |
+
+| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :--- | :-- | :--  | :--   | :----   | :----   |
+|                     | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
+|   FFHQ (128 X 128)  |   #Images  | 61M | - |  - | __24M__ |
+|                     | FID| 6.89| - | -| __4.48__ |
+
 
 ## Hparams setting
 Adjust hyperparameters in the `config.py` file.
@@ -27,7 +49,7 @@ Implementation notes:
 - This model depends on other files that may be licensed under different open source licenses.
 - LadaGAN uses [Differentiable Augmentation](https://arxiv.org/abs/2006.10738). Under BSD 2-Clause "Simplified" License.
 - [FID](https://arxiv.org/abs/1706.08500) evaluation.
-- Patch generation.
+- Efficient patch generation with XLA.
 
 ## Demo
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ZS7pSxh_-PLSFAcJwuG0WCejD5cRTg9C?)
