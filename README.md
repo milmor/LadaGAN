@@ -30,17 +30,13 @@ Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
 |    CIFAR 10 (32x32)                       | #Params | 57M | - |- | __19M__ |
 |                     | GPUs | Tesla V100s x 2| - |- | __RTX 3080 Ti x 1__ |
 |                     | FID | __2.93__| 5.79 |4.57 | 3.48 |
-
-| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
-| :--- | :-- | :--  | :--   | :----   | :----   |
+||
 |                     | FLOPs | 103.5B | 7.8B |2.6B | __0.7B__ |
 |                     |   #Images | 138M |- |- | __72M__ |
 |    CelebA (64x64)                      | #Params | 295M | 24M | 38M | __19M__ |
 |                     | GPUs | Tesla V100s x 16| - |- | __RTX 3080 Ti x 1__ |
 |                     | FID | 2.67| -|3.74 | __1.81__ |
-
-| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
-| :--- | :-- | :--  | :--   | :----   | :----   |
+||
 |                     | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
 |   FFHQ (128x128)  |   #Images  | 61M | - |  - | __24M__ |
 |                     | FID| 6.89| - | -| __4.48__ |
