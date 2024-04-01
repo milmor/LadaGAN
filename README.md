@@ -23,23 +23,27 @@ python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 
 ## FLOPs
 Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
-| Resolution |   | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
-| :--- | :-- | :--  | :--   | :----   | :----   |
-|                     | FLOPs | 9.0B | - | - | __0.7B__ |
-|                     |   #Images | 69M |- |- | __68M__ |
-|    CIFAR 10 (32x32)                       | #Params | 57M | - |- | __19M__ |
-|                     | GPUs | Tesla V100s x 2| - |- | __RTX 3080 Ti x 1__ |
-|                     | FID | __2.93__| 5.79 |4.57 | 3.48 |
-||
-|                     | FLOPs | 103.5B | 7.8B |2.6B | __0.7B__ |
-|                     |   #Images | 138M |- |- | __72M__ |
-|    CelebA (64x64)                      | #Params | 295M | 24M | 38M | __19M__ |
-|                     | GPUs | Tesla V100s x 16| - |- | __RTX 3080 Ti x 1__ |
-|                     | FID | 2.67| -|3.74 | __1.81__ |
-||
-|                     | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
-|   FFHQ (128x128)  |   #Images  | 61M | - |  - | __24M__ |
-|                     | FID| 6.89| - | -| __4.48__ |
+| Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :-- |  :------:  |  :------:  |  :------:   |  :------:  |
+| FLOPs | 9.0B | - | - | __0.7B__ |
+|   #Images | 69M |- |- | __68M__ |
+| #Params | 57M | - |- | __19M__ |
+| GPUs | Tesla V100s x 2| - |- | __RTX 3080 Ti x 1__ |
+| FID | __2.93__| 5.79 |4.57 | 3.48 |
+
+| Model (CelebA 64x64)  | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :-- |  :------:  |  :------:  |  :------:   |  :------:  |
+| FLOPs | 103.5B | 7.8B |2.6B | __0.7B__ |
+|   #Images | 138M |- |- | __72M__ |
+| #Params | 295M | 24M | 38M | __19M__ |
+| GPUs | Tesla V100s x 16| - |- | __RTX 3080 Ti x 1__ |
+| FID | 2.67| -|3.74 | __1.81__ |
+
+| Model (FFHQ 128x128)  | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
+| :-- |  :------:  |  :------:  |  :------:   |  :------:  |
+| FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
+|   #Images  | 61M | - |  - | __24M__ |
+| FID| 6.89| - | -| __4.48__ |
 
 
 ## Hparams setting
