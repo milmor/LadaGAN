@@ -46,7 +46,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
 | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
 | FID| 6.89| - | -| __4.48__ |
 
-FID evaluation is computed using [Pytorch FID](https://github.com/mseitzer/pytorch-fid).
+LadaGAN FID evaluation is computed using [Pytorch FID](https://github.com/mseitzer/pytorch-fid).
 
 ## Hparams setting
 Adjust hyperparameters in the `config.py` file.
@@ -60,7 +60,11 @@ Implementation notes:
 ## Demo
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ZS7pSxh_-PLSFAcJwuG0WCejD5cRTg9C?)
 
+## Attention maps
+Single head 32x32 map:
 
+<img src="./images/ep_cifar.gif" width="|50px"></img>
+<img src="./images/attn32_cifar.gif" width="|50px"></img>
 
 ## BibTeX
 ```bibtex

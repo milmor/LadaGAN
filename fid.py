@@ -84,8 +84,8 @@ def create_fid_ds(img_dir, batch_size, img_size, n_images, seed=42):
                        num_parallel_calls=AUTOTUNE)
     ds = ds.batch(batch_size, drop_remainder=True, 
             num_parallel_calls=AUTOTUNE).prefetch(AUTOTUNE)
-    print(f'FID dataset size: {BUFFER_SIZE}')  
-    print(f'FID batches: {tf.data.experimental.cardinality(ds)}') 
+    ds_size = tf.data.experimental.cardinality(ds)
+    print(f'FID dataset size: {BUFFER_SIZE} FID batches: {ds_size}')  
     return ds
 
 class Inception(tf.keras.models.Model):
