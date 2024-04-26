@@ -14,6 +14,12 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 - Python 3.9
 - Tensorflow <= 2.13.1
 
+A conda environment can be created and activated with:
+```
+conda create --name tf13 python=3.9.16
+conda activate tf13
+pip install tensorflow==2.13.1 numpy matplotlib pillow scipy huggingface-hub
+```
 
 ## Training LadaGAN
 Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the dataset path and FID evaluation path.
