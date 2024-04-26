@@ -61,7 +61,7 @@ Implementation notes:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ZS7pSxh_-PLSFAcJwuG0WCejD5cRTg9C?)
 
 ## Attention maps
-Single head 32x32 and 16x16 maps:
+Single head maps training progress:
 
 <img src="./images/ep_cifar.gif" width="|50px"></img>
 <img src="./images/attn32_cifar.gif" width="|50px"></img>
