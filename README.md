@@ -18,7 +18,8 @@ A conda environment can be created and activated with:
 ```
 conda create --name tf13 python=3.9.16
 conda activate tf13
-pip install tensorflow==2.13.1 numpy matplotlib pillow scipy huggingface-hub
+pip install tensorflow[and-cuda]==2.13.1 
+pip install numpy matplotlib pillow scipy tqdm huggingface-hub
 ```
 
 ## Training LadaGAN
