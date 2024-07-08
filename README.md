@@ -1,7 +1,7 @@
 # LadaGAN
 This repo is the official implementation of "[Efficient generative adversarial networks using linear additive-attention Transformers](https://arxiv.org/abs/2401.09596)".
 
-<img src="./images/plot_ffhq.png" width="850px"></img>
+<img src="./images/arch.png" width="850px"></img>
 
 By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
@@ -28,8 +28,9 @@ Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the d
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
 
+
 ## FLOPs
-Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
+Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datasets takes less than 40 hours:
 | Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
 | GPUs | Tesla V100 x 2| - |- | __RTX 3080 Ti x 1__ |
@@ -55,6 +56,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for CIFAR 10 and CelebA trainings:
 
 LadaGAN FID evaluation is computed using [Pytorch FID](https://github.com/mseitzer/pytorch-fid).
 
+
 ## Hparams setting
 Adjust hyperparameters in the `config.py` file.
 
@@ -64,8 +66,10 @@ Implementation notes:
 - [FID](https://arxiv.org/abs/1706.08500) evaluation.
 - Efficient patch generation with XLA.
 
+
 ## Demo
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ZS7pSxh_-PLSFAcJwuG0WCejD5cRTg9C?)
+
 
 ## Attention maps
 Single head maps training progress:
