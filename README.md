@@ -74,9 +74,9 @@ Implementation notes:
 ## Attention maps
 Single head maps training progress:
 
-<img src="./images/ep_cifar.gif" width="|50px"></img>
-<img src="./images/attn32_cifar.gif" width="|50px"></img>
-<img src="./images/attn16_cifar.gif" width="|50px"></img>
+<img src="./images/ep_cifar.gif" width="250px"></img>
+<img src="./images/attn32_cifar.gif" width="250px"></img>
+<img src="./images/attn16_cifar.gif" width="250px"></img>
 
 ## BibTeX
 ```bibtex
