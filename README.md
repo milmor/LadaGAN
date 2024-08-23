@@ -37,7 +37,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datase
 |   #Images | 69M |- |- | __68M__ |
 | #Params | 57M | - |- | __19M__ |
 | FLOPs | 9.0B | - | - | __0.7B__ |
-| FID | __2.93__| 5.79 |4.57 | 3.48 |
+| FID | __2.93__| 5.79 |4.57 | 3.29 |
 
 | Model (CelebA 64x64)  | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
@@ -53,8 +53,6 @@ Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datase
 | #Params | 543M | - | - | __24M__ |
 | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
 | FID| 6.89| - | -| __4.48__ |
-
-LadaGAN FID evaluation is computed using [Pytorch FID](https://github.com/mseitzer/pytorch-fid).
 
 
 ## Hparams setting
