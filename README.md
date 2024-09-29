@@ -1,7 +1,7 @@
 # LadaGAN
 This repo is the official implementation of "[Efficient generative adversarial networks using linear additive-attention Transformers](https://arxiv.org/abs/2401.09596)".
 
-<img src="./images/plot_ffhq.png" width="850px"></img>
+<img src="./images/ffhq_128_img.png" width="850px"></img>
 
 By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
@@ -27,7 +27,6 @@ Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the d
 ```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
-
 
 ## FLOPs
 Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datasets takes less than 40 hours:
@@ -72,9 +71,7 @@ Implementation notes:
 ## Attention maps
 Single head maps training progress:
 
-<img src="./images/ep_cifar.gif" width="250px"></img>
-<img src="./images/attn32_cifar.gif" width="250px"></img>
-<img src="./images/attn16_cifar.gif" width="250px"></img>
+<img src="./images/ffhq_learning.gif" width="650px"></img>
 
 ## BibTeX
 ```bibtex
