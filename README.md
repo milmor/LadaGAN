@@ -71,7 +71,8 @@ Implementation notes:
 ## Attention maps
 Single head maps training progress:
 
-<img src="./images/ffhq_learning.gif" width="650px"></img>
+<img src="./images/learning_bedroom128.gif" width="650px"></img>
+<img src="./images/learning_ffhq128.gif" width="650px"></img>
 
 ## BibTeX
 ```bibtex
