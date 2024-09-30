@@ -22,18 +22,20 @@ pip install tensorflow[and-cuda]==2.13.1
 pip install numpy matplotlib pillow scipy tqdm huggingface-hub
 ```
 
+
 ## Training LadaGAN
 Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the dataset path and FID evaluation path.
 ```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
 
+
 ## FLOPs
-Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datasets takes less than 40 hours:
+Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datasets takes less than 35 hours:
 | Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
 | GPUs | Tesla V100 x 2| - |- | __RTX 3080 Ti x 1__ |
-|   #Images | 69M |- |- | __68M__ |
+|   #Images | 69M |200M |- | __68M__ |
 | #Params | 57M | - |- | __19M__ |
 | FLOPs | 9.0B | - | - | __0.7B__ |
 | FID | __2.93__| 5.79 |4.57 | 3.29 |
@@ -48,7 +50,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datase
 
 | Model (FFHQ 128x128)  | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
-|   #Images  | 61M | - |  - | __24M__ |
+|   #Images  | 61M | - |  - | __53M__ |
 | #Params | 543M | - | - | __24M__ |
 | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
 | FID| 6.89| - | -| __4.48__ |
