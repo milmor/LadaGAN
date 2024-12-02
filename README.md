@@ -7,7 +7,9 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
 
 ## Abstract
-> Although the capacity of deep generative models for image generation, such as Diffusion Models (DMs) and Generative Adversarial Networks (GANs), has dramatically improved in recent years, much of their success can be attributed to computationally expensive architectures. This has limited their adoption and use to research laboratories and companies with large resources, while significantly raising the carbon footprint for training, fine-tuning, and inference. In this work, we present a novel GAN architecture which we call LadaGAN. This architecture is based on a linear attention Transformer block named Ladaformer. The main component of this block is a linear additive-attention mechanism that computes a single attention vector per head instead of the quadratic dot-product attention. We employ Ladaformer in both the generator and discriminator, which reduces the computational complexity and overcomes the training instabilities often associated with Transformer GANs. LadaGAN consistently outperforms existing convolutional and Transformer GANs on benchmark datasets at different resolutions while being significantly more efficient. Moreover, LadaGAN shows competitive performance compared to state-of-the-art multi-step generative models (e.g. DMs) using orders of magnitude less computational resources. 
+> Although the capacity of deep generative models for image generation, such as Diffusion Models (DMs) and Generative Adversarial Networks (GANs), has dramatically improved in recent years, much of their success can be attributed to computationally expensive architectures. This has limited their adoption and use to research laboratories and companies with large resources, while significantly raising the carbon footprint for training, fine-tuning, and inference. In this work, we present a novel GAN architecture which we call LadaGAN. This architecture is based on a linear attention Transformer block named Ladaformer. The main component of this block is a linear additive-attention mechanism that computes a single attention vector per head instead of the quadratic dot-product attention. We employ Ladaformer in both the generator and discriminator, which reduces the computational complexity and overcomes the training instabilities often associated with Transformer GANs. LadaGAN consistently outperforms existing convolutional and Transformer GANs on benchmark datasets at different resolutions while being significantly more efficient. Moreover, LadaGAN shows competitive performance compared to state-of-the-art multi-step generative models (e.g. DMs) using orders of magnitude less computational resources.
+
+#### &#9733;&#9733;&#9733; [LadaGAN PyTorch](https://github.com/milmor/LadaGAN-pytorch) version coming soon &#9733;&#9733;&#9733;
 
 ## Dependencies
 - Python 3.9
@@ -27,6 +29,11 @@ Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the d
 ```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
+
+The model trains by default at a resolution of 64x64. You can adjust the training resolution in the `config.py` file by modifying the following parameters:
+- **_img_size_**: Image resolution for training.
+- **_d_enc_dim_**: Dimension of the discriminator encoder.
+- **_dec_dim_**: Set **_dec_dim_** to **_False_** for patch generation. To use the convolutional decoder set `@tf.function(jit_compile=False)` and use **_dec_dim_** to set the dimension.
 
 
 ## FLOPs
