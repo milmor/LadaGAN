@@ -29,11 +29,10 @@ Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the d
 ```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
-
-The model trains by default at a resolution of 64x64. You can adjust the training resolution in the `config.py` file by modifying the following parameters:
-- **_img_size_**: Image resolution for training.
-- **_d_enc_dim_**: Dimension of the discriminator encoder.
-- **_dec_dim_**: Set **_dec_dim_** to **_False_** for patch generation. To use the convolutional decoder set `@tf.function(jit_compile=False)` and use **_dec_dim_** to set the dimension.
+By default, the model trains at a resolution of 64x64. You can adjust the training resolution in the `config.py` file by modifying the following parameters:
+- `img_size`: The image resolution for training.
+- `d_enc_dim`: The dimension of the discriminator encoder.
+- `dec_dim`: Set `dec_dim` to `False` for patch generation. To train with a convolutional decoder, set `dec_dim` according to the resolution and use `@tf.function(jit_compile=False)`.
 
 
 ## FLOPs
