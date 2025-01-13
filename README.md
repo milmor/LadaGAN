@@ -40,14 +40,14 @@ Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datase
 | Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
 | GPUs | Tesla V100 x 2| - |- | __RTX 3080 Ti x 1__ |
-|   #Images | 69M |200M |- | __68M__ |
-| #Params | 57M | - |- | __19M__ |
+|   #Images | 69M | - | - | __68M__ |
+| #Params | 57M | - | - | __19M__ |
 | FLOPs | 9.0B | - | - | __0.7B__ |
 | FID | __2.93__| 5.79 |4.57 | 3.29 |
 
 | Model (CelebA 64x64)  | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
-| GPUs | Tesla V100 x 16| - |- | __RTX 3080 Ti x 1__ |
+| GPUs | Tesla V100 x 16| - | - | __RTX 3080 Ti x 1__ |
 |   #Images | 138M |- |- | __72M__ |
 | #Params | 295M | 24M | 38M | __19M__ |
 | FLOPs | 103.5B | 7.8B |2.6B | __0.7B__ |
@@ -58,7 +58,7 @@ Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datase
 |   #Images  | 61M | - |  - | __53M__ |
 | #Params | 543M | - | - | __24M__ |
 | FLOPs | 391.0B| 11.5B |11.8B| __4.3B__ |
-| FID| 6.89| - | -| __4.48__ |
+| FID| 6.89| - | - | __4.48__ |
 
 
 ## Hparams setting
