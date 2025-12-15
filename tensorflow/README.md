@@ -1,7 +1,7 @@
 # LadaGAN
 This repo is the official implementation of "[Efficient generative adversarial networks using linear additive-attention Transformers](https://arxiv.org/abs/2401.09596)".
 
-<img src="./images/ffhq_128_img.png" width="850px"></img>
+<img src="../images/ffhq_128_img.png" width="850px"></img>
 
 By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 
@@ -9,36 +9,33 @@ By Emilio Morales-Juarez and Gibran Fuentes-Pineda.
 ## Abstract
 > Although the capacity of deep generative models for image generation, such as Diffusion Models (DMs) and Generative Adversarial Networks (GANs), has dramatically improved in recent years, much of their success can be attributed to computationally expensive architectures. This has limited their adoption and use to research laboratories and companies with large resources, while significantly raising the carbon footprint for training, fine-tuning, and inference. In this work, we present a novel GAN architecture which we call LadaGAN. This architecture is based on a linear attention Transformer block named Ladaformer. The main component of this block is a linear additive-attention mechanism that computes a single attention vector per head instead of the quadratic dot-product attention. We employ Ladaformer in both the generator and discriminator, which reduces the computational complexity and overcomes the training instabilities often associated with Transformer GANs. LadaGAN consistently outperforms existing convolutional and Transformer GANs on benchmark datasets at different resolutions while being significantly more efficient. Moreover, LadaGAN shows competitive performance compared to state-of-the-art multi-step generative models (e.g. DMs) using orders of magnitude less computational resources.
 
-## Implementations
 
-This repository provides **two implementations** of LadaGAN:
+## Dependencies
+- Python 3.9
+- Tensorflow <= 2.13.1
 
-- **[TensorFlow Implementation](./tensorflow/)** - Original TensorFlow implementation
-- **[PyTorch Implementation](./pytorch/)** - PyTorch implementation
+A conda environment can be created and activated with:
+```
+conda create --name tf13 python=3.9.16
+conda activate tf13
+pip install tensorflow[and-cuda]==2.13.1 
+pip install numpy matplotlib pillow scipy tqdm huggingface-hub
+```
 
-Both implementations are feature-complete and produce equivalent results. Choose the one that best fits your workflow.
 
-### Quick Start
-
-**TensorFlow:**
-```bash
-cd tensorflow
+## Training LadaGAN
+Use `--file_pattern=<file_pattern>` and `--eval_dir=<eval_dir>` to specify the dataset path and FID evaluation path.
+```
 python train.py --file_pattern=./data_path/*png --eval_dir=./eval_path/*png
 ```
-
-**PyTorch:**
-```bash
-cd pytorch
-python train.py --data_dir ./data_path --fid_real_dir ./eval_path
-```
-
-For detailed instructions, dependencies, and usage, please refer to the README files in each implementation directory:
-- [TensorFlow README](./tensorflow/README.md)
-- [PyTorch README](./pytorch/README.md)
+By default, the model trains at a resolution of 64x64. You can adjust the training resolution in the `config.py` file by modifying the following parameters:
+- `img_size`: The image resolution for training.
+- `d_enc_dim`: The dimension of the discriminator encoder.
+- `dec_dim`: Set `dec_dim` to `False` for patch generation. To train with a convolutional decoder, set `dec_dim` according to the resolution and use `@tf.function(jit_compile=False)`.
 
 
 ## FLOPs
-Training on CIFAR-10 and CelebA using a single 12GB GPU (RTX 3080 Ti) takes less than 40 hours. __Note that these results and the experiments reported in the paper were obtained using the [TensorFlow implementation of LadaGAN](https://github.com/milmor/LadaGAN/tensorflow/), which runs twice as fast as the PyTorch implementation due to XLA.__  
+Using a single 12GB GPU (RTX 3080 Ti) for training on CIFAR-10 and CelebA datasets takes less than 35 hours:
 | Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
 | GPUs | Tesla V100 x 2| - |- | __RTX 3080 Ti x 1__ |
@@ -63,14 +60,14 @@ Training on CIFAR-10 and CelebA using a single 12GB GPU (RTX 3080 Ti) takes less
 | FID| 6.89| - | - | __4.48__ |
 
 
-## Hyperparameters
-Adjust hyperparameters in the `config.py` file within each implementation directory.
+## Hparams setting
+Adjust hyperparameters in the `config.py` file.
 
-## Implementation Notes
+Implementation notes:
 - This model depends on other files that may be licensed under different open source licenses.
 - LadaGAN uses [Differentiable Augmentation](https://arxiv.org/abs/2006.10738). Under BSD 2-Clause "Simplified" License.
 - [FID](https://arxiv.org/abs/1706.08500) evaluation.
-- TensorFlow implementation: Efficient patch generation with XLA.
+- Efficient patch generation with XLA.
 
 
 ## Demo
@@ -80,8 +77,8 @@ Adjust hyperparameters in the `config.py` file within each implementation direct
 ## Attention maps
 Single head maps training progress:
 
-<img src="./images/learning_bedroom128.gif" width="600px"></img>
-<img src="./images/learning_ffhq128.gif" width="600px"></img>
+<img src="../images/learning_bedroom128.gif" width="600px"></img>
+<img src="../images/learning_ffhq128.gif" width="600px"></img>
 
 ## BibTeX
 ```bibtex
@@ -96,4 +93,3 @@ Single head maps training progress:
 
 ## License
 MIT
-
