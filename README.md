@@ -38,7 +38,7 @@ For detailed instructions, dependencies, and usage, please refer to the README f
 
 
 ## FLOPs
-Training on CIFAR-10 and CelebA using a single 12GB GPU (RTX 3080 Ti) takes less than 40 hours. __Note that these results and the experiments reported in the paper were obtained using the [TensorFlow implementation of LadaGAN](https://github.com/milmor/LadaGAN/tensorflow/), which runs twice as fast as the PyTorch implementation due to XLA.__  
+Training on CIFAR-10 and CelebA using a single 12GB GPU (RTX 3080 Ti) takes less than 40 hours. __Note that these results and the experiments reported in the paper were obtained using the [TensorFlow implementation of LadaGAN](./tensorflow/README.md), which runs twice as fast as the PyTorch implementation due to XLA.__  
 | Model (CIFAR 10 32x32) | ADM-IP (80 steps) | StyleGAN2 |  VITGAN  | LadaGAN  |
 | :-- |  :------:  |  :------:  |  :------:   |  :------:  |
 | GPUs | Tesla V100 x 2| - |- | __RTX 3080 Ti x 1__ |

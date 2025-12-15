@@ -1,6 +1,6 @@
 ## LadaGAN &mdash; Official PyTorch implementation
 
-<img src="./images/plot_ffhq.png" width="850px"></img>
+<img src="../images/ffhq_128_img.png" width="850px"></img>
 
 This repository is a reimplementation of [LadaGAN](https://github.com/milmor/LadaGAN) in PyTorch.
 
