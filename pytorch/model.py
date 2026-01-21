@@ -116,7 +116,8 @@ class Generator(nn.Module):
         self.block_1024 = SMLadaformer(dim[2], noise_dim, heads[2], mlp_dim[2])
         self.pos_1024 = nn.Parameter(torch.randn(1, 1024, dim[2]))
         self.patch_size = img_size // 32
-        self.ch_conv = nn.Conv2d(dim[2] // 4, 3, 3, 1, 1)
+        ch_div = self.patch_size ** 2 if self.patch_size > 1 else 1
+        self.ch_conv = nn.Conv2d(dim[2] // ch_div, 3, 3, 1, 1)
 
     def forward(self, z):
         B = z.shape[0]
@@ -192,9 +193,9 @@ class Discriminator(nn.Module):
         self.encoder = nn.ModuleList([
             DownBlock(enc_dim[i], enc_dim[i+1]) for i in range(len(enc_dim)-1)
         ])
-        self.pos_256 = nn.Parameter(torch.randn(1, 256, enc_dim[2]))
-        self.block_256 = Ladaformer(256, enc_dim[2], heads, mlp_dim)
-        self.conv_256 = nn.Conv2d(enc_dim[2] * 4, out_dim[0], 3, 1, 1)
+        self.pos_256 = nn.Parameter(torch.randn(1, 256, enc_dim[-1]))
+        self.block_256 = Ladaformer(256, enc_dim[-1], heads, mlp_dim)
+        self.conv_256 = nn.Conv2d(enc_dim[-1] * 4, out_dim[0], 3, 1, 1)
 
         self.logits = nn.Sequential(
             nn.Conv2d(out_dim[0], out_dim[1], 1, 1, 0, bias=False),
